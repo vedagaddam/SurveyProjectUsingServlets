@@ -1,2 +1,13 @@
-# SurveyProjectUsingServlets
+# SurveyProjectUsingServlets (This is an assignment which was a part of a course that I took in my college)
 Project to take survey from the users, store in the database and display the results.
+I have included the eclipse project SurveyProject.war file which can be directly imported into eclipse.
+I have also included the source code in the SurveyProject folder.
+The project uses Tomcat Server, Oracle database, java.
+Please change the database credentials(I have just mentioned DATABASE_USERNAME and PASSWORD) to your oracle credentials.
+Files included in the project:
+1. SurveyPage - html page which will take the survey from the user and forwards the request to the servlet. (The form has a data field in which the user enters 10 numerical values for which the Mean and Standard Deviation is calculated)
+2. The implementation has one Servlet(GatherData.java) that acts as a front controller that receives all client requests, saves the form data to a database table, performs business logic(s) via business delegate classes, stores JavaBean objects into a session or request object, and then forwards the request to appropriate JSP to present the data to the user. The servlet acts as a front controller in the MVC implementation and receives and handles all requests from the client, performs business logic via business delegate classes (which may return JavaBean objects), stores the beans into a session object, and then forwards the request to appropriate JSP to present the data to the user using a RequestDispatcher object
+3. A StudentDAO class that encapsulates code to store and retrieve the Survey data into/from a database. It provides two methods: one to save the Student Survey Form data to a database table and another to retrieve the survey information from the database.
+4. DataProcesso java class that provides a method to compute the Mean and Standard Deviation using the ten numbers entered in the Data field on the Student Survey Form.
+5. Two acknowledgement JSPs: one to simply thank the user for filling out the form (we call this SimpleAcknowledgement JSP) and the other to announce that the user was a winner of two movie tickets if the mean of numbers was greater than 90 (we call this a WinnerAcknowledgement JSP). Both pages have unordered list of hyperlinks of all StudentIDs, which when clicked retrieve the saved form data in the previous steps. When clicked on the ids, the form data of that particular student is entered.
+6. Two JavaBeans: DataBean and StudentBean. The DataBean has two attributes to hold the mean and standard deviation. The StudentBean has attributes that matches most of the Student Survey Form fields, except the Data field.
