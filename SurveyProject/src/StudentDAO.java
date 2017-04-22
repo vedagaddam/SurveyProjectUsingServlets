@@ -54,7 +54,7 @@ public class StudentDAO {
 			 try {
 				 //DriverManager.registerDriver( new oracle.jdbc.driver.OracleDriver());
 	        	 Connection con;
-	            con = DriverManager.getConnection("jdbc:oracle:thin:@apollo.ite.gmu.edu:1521:ite10g", "vgaddam", "ptuphy");
+	            con = DriverManager.getConnection("jdbc:oracle:thin:@apollo.ite.gmu.edu:1521:ite10g", "DATABASE_USERNAME", "PASSWORD");
 	            System.out.println("Connection established");
 	            Statement stmt= con.createStatement();
 	           // stmt.executeUpdate("Drop table studentdata");
@@ -96,7 +96,7 @@ public class StudentDAO {
 		 System.out.println("inside retireve");
 		        try {
 		            Class.forName("oracle.jdbc.driver.OracleDriver");
-		            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@apollo.ite.gmu.edu:1521:ite10g", "vgaddam", "ptuphy");
+		            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@apollo.ite.gmu.edu:1521:ite10g", "DATABASE_USERNAME", "PASSWORD");
 		            Statement stmt = con.createStatement();
 		            System.out.println("connection established");
 		            System.out.println(id);
