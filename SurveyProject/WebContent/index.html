@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset = "utf-8">
+	<title>CS Department Survey page</title>
+	 <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css
+         " rel = "stylesheet">
+      <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+      <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+	<style>
+	tr
+	{ border: 1px solid #000; }
+	td
+	{ border: 1px solid #000; }
+	
+		.divSurvey{
+		width:80%;
+		margin: auto;
+		}
+		body{
+	background-color: #D3D3D3;
+	color:#880000;
+	}
+	h1{
+	color:blue;
+	text-shadow: -4px 4px 6px dimgrey;  
+	}
+	.para{
+	font-family: courier;
+	border-collapse: collapse;
+	}
+	.headings{
+		color: #880000;
+	}
+	.link{
+	font-size: 16pt;
+	}
+	</style>
+	<script type="text/javascript">	
+	//-------------START COOKIES --------------------------------
+		var now = new Date(); 
+		var hour = now.getHours(); 
+		var name;
+	   
+		if ( hour <  12   ) 
+			document.write( "<h1>Good Morning, " );
+		else
+		{
+			hour = hour - 12;
+			if ( hour < 6 )
+				document.write( "<h1>Good Afternoon, " );
+			else
+				document.write( "<h1>Good Evening, " );
+		} 
+		if ( document.cookie )
+		{
+			var myCookie = unescape( document.cookie );
+			var cookieTokens = myCookie.split( "=" );
+			name = cookieTokens[ 1 ];
+		} 
+		else
+		{
+			name = window.prompt( "Please enter your name", "Veda" );
+			document.cookie = "name=" + escape( name );
+		} 
+		document.writeln(name + ", Welcome to Assignment 3!</h1>" );
+		document.writeln( "<a href = 'javascript:wrongPerson()'> " + "Click here if you are not " + name + "</a>" );
+		 function wrongPerson()
+		 {
+			document.cookie= "name=null;" +" expires=Thu, 01-Jan-95 00:00:01 GMT";
+			location.reload();
+		 } 
+		 //-------------END COOKIES-------------------
+		 //-------------------START FORM VALIADTION --------------------------
+		 function validateForm(){
+			var alpha=  /^[a-zA-Z\s]*$/; 
+			var errorMessage = "";
+			var chk = true;
+			var uname = document.getElementById("uname").value;
+			if(uname == ""){
+				 errorMessage += "Username can't be empty. \n";
+				 chk = false;
+				 document.getElementById("uname").value = "";
+				 document.getElementById( "uname" ).focus();
+			}
+			else if(!uname.match(alpha)){
+				errorMessage += "Username has to contain only alphabets. \n";
+				chk = false;
+				document.getElementById("uname").value = "";
+				document.getElementById( "uname" ).focus();
+			}
+			var alphaNumeric = /^[0-9a-zA-Z\s]+$/;
+			var address = document.getElementById("address").value;
+			if(address == ""){
+				 errorMessage += "Address can't be empty. \n";
+				 chk = false;
+				 document.getElementById("address").value = "";
+				 document.getElementById( "address" ).focus();
+			}
+			else if(!address.match(alpha)){
+				errorMessage += "Address has to contain only alphanumerics. \n";
+				chk = false;
+				document.getElementById("address").value = "";
+				document.getElementById( "address" ).focus();
+			}
+			var checkBox = document.forms["survey"]["like"];
+			var lenChk = 0;
+			var i = 0;
+			for(i=0;i<checkBox.length;i++){
+				if(checkBox[i].checked)
+					lenChk++;
+			}
+			if(lenChk <2){
+				errorMessage += "Minimum of 2 options have to be checked to things liked. \n";
+				chk = false;
+			}
+			var radioBox = document.forms["survey"]["univ"];
+			var lenRadChk = 0;
+			var i = 0;
+			for(i=0;i<radioBox.length;i++){
+				if(radioBox[i].checked)
+					lenRadChk++;
+			}
+			if(lenRadChk <1){
+				errorMessage += "Minimum of 1 option to be checked for interested things. \n";
+				chk = false;
+			}
+			var email = document.getElementById("ema").value;
+			if(email == ""){
+				errorMessage += "Email can't be empty. \n";
+				chk = false;
+				document.getElementById( "ema" ).focus();
+			}
+			if(chk == false){
+			$("#err").html(errorMessage);
+			$( "#err" ).dialog({ title: "Error Message",
+													resizable: false,
+													width: 400,								
+													modal: true,
+													buttons: {
+														"Ok": function() 
+														{
+															$( this ).dialog( "close" );
+														}}});
+				}
+			return chk;
+			
+		 }
+		 //---------END FORM VALIDATION ----------
+		 // Calculate maximum and average of data
+		 function calculateAvgMax(){
+			//--------Finding max ----------
+			//var a = window.prompt("numbers1");
+			var numInput = document.getElementById('numData').value;
+			var numbers = numInput.split(",");
+			var len = numbers.length;
+			if(len < 10){	
+				alert("Less than 10 are entered");
+				return false;
+			}
+			var max = 0;
+			var total = 0;
+			var i = 0;
+			for(i = 0; i < len; i++){
+				total += parseInt(numbers[i]);
+				if(max < parseInt(numbers[i]));
+					max = parseInt(numbers[i]);
+			}
+			var avg = parseFloat(total/len);
+			document.getElementById("average").value = avg;
+			document.getElementById("maximum").value = max;			
+			return true;
+			//----------END FIND MAX -------------------		
+		 }
+		 function validateZip(){
+		 //document.getElementById("zipValidation").innerHTML = "Searching zip";
+        	var xmlhttp = new XMLHttpRequest();
+			
+        	var url = "zip.json";
+				
+        	xmlhttp.onreadystatechange = function() {
+        	    if (xmlhttp.readyState == 4 ){
+					if(xmlhttp.status == 200) {
+					  var i=0;
+					  var zips = document.getElementById("zip").value;
+						
+					  document.getElementById("city").value = " ";
+					  document.getElementById("state").value = " "; 
+						var myArr = xmlhttp.responseText;
+						var obj = JSON.parse(myArr);
+						var n = obj.zipcodes.length;
+						var flag = "fal";
+						for(i=0; i<n; i++){
+						  var ziptxt = parseInt(obj.zipcodes[i].zip);
+						  var input = parseInt(zips);
+						  if(ziptxt === input){
+							flag = "tr";
+							document.getElementById("city").value = obj.zipcodes[i].city;
+							document.getElementById("state").value = obj.zipcodes[i].state;
+							document.getElementById("zipValidation").innerHTML = "";
+						  }
+						}
+						if(flag.match("fal")){
+						  //alert("Please enter a valid Zip Code");
+						  document.getElementById("zipValidation").innerHTML = "Please enter a valid Zip Code";
+						}
+        	        
+					}
+				}
+        	}
+        	
+        	xmlhttp.open("GET", url);
+        	xmlhttp.send();
+        	}
+			function chkInput(){
+			document.getElementById("zipValidation").innerHTML = "Searching the zip";
+			}
+		
+$(document).ready(function(){
+    $(document).tooltip();
+$("#err").hide()	
+});
+
+	</script>
+</head>
+<body>
+	<h1> CS Department Survey page </h1><br>
+	<div name= "form" class="divSurvey">
+		<form id="survey" name="survey" autocomplete="on" method="post" action = "GatherData" >
+			<table class="para">
+				<tr>
+				<td>Username*:<br><input type="text" id="uname" name="uname" placeholder="Username" required autofocus/></td>
+				<td>GMU ID*:<br> <input type="text" id="gmuid" name = "gmuid" placeholder="gmuid" required /></td>
+				<td>Street Address*: <br><input type="text" id = "address" name = "address" placeholder="Street address" required/></td>
+				</tr>
+				<tr>
+				<td>City:<br><input type="text" id = "city" name = "city" placeholder="city" required/> </td>
+				<td>State:<br><input type="text" id = "state" name = "state" placeholder="state" required/></td>
+				<td>Zip*:<br> <input type="text" oninput="chkInput()" onblur = "validateZip()" placeholder="Zip" id="zip"  name = "zip" required/></td><td><span id = "zipValidation"> </span></td> </tr>
+				<tr>
+				<td>Telephone*:<br> <input type="tel"  name = "phone" id = "phone" placeholder="999-999-9999"  required/></td>
+				<td>Email*:<br> <input type="email"  placeholder="example@site.com" id = "emailid"  name = "emailid" required/></td>
+				<td>URL:<br> <input type="url" placeholder="https://www.example.com" name = "url" id = "url"/></td>
+				</tr>
+				<tr>
+				<td>Date of survey:<br><input type="date"  name = "date" id = "date"/></td>
+				<td>What do you like about the campus:*<br>
+					<input type="checkbox" name="like" value="students"> Students<br>
+					<input type="checkbox" name="like" value="location"> Location<br>
+					<input type="checkbox" name="like" value="campus"> Campus<br>
+					<input type="checkbox" name="like" value="dormrooms"> Dorm rooms<br>
+					<input type="checkbox" name="like" value="sports"> Sports
+				</td>
+				<td>How did you become interested in the University:*<br>
+					<input type="radio" name="univ" value="friends"> Friends<br>
+					<input type="radio" name="univ" value="television"> Television<br>
+					<input type="radio" name="univ" value="Internet"> Internet<br>
+					<input type="radio" name="univ" value="other"> Other<br>
+				</td>
+				</tr>
+				<tr><td>Graduation Month:<br>
+					<input type = "text"  list = "months" placeholder="Select a month" name = "months" />
+				   <datalist id = "months">
+					   <option value = "January">
+					   <option value = "February">   
+					   <option value = "March"> 
+					   <option value = "April">
+					   <option value = "May">
+					   <option value = "June">
+					   <option value = "July">
+					   <option value = "August">
+					   <option value = "September">
+					   <option value = "October">
+					   <option value = "Novemeber">
+					   <option value = "December">
+				   </datalist> </td>
+				   <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Year:<br>
+				   <input type="text" placeholder="Example: 1994"  name = "year" id = "year" /></td>
+				<td>Additional Comments:<br> <textarea placeholder="Enter additional comments"  name = "acomment" id = "acomment"></textarea></td></tr> 
+				<tr> <td>Likelyhood of recommending the school:<br>
+				     <select name = "recommend">
+						<option selected = "selected">Very Likely</option>
+					    <option>Likely</option>
+						<option>Unlikely</option>
+						</select> </td>
+				
+					<td> Data: <br><input type="text" id="numData" name="numdata"></td>
+					<td></td></tr>
+					<tr><td> <input type="submit" onclick=" return validateForm();"/></td><td><input type = "reset" value = "Reset" /></td></tr>
+			</table>
+		</form>
+	</div>
+<div id="ttp">
+<a href="https://www2.gmu.edu">
+<img  border="0" alt="GMU LOGO" src="gmulogo.png" width="100" height="100" title="Click here to visit the GMU website" align="right" >
+</a>
+</div>
+<div id="err">
+asdd
+</div>
+Content created by Veda Gaddam
+</body>
+</html>
+
