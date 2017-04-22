@@ -78,7 +78,7 @@ public class GatherData extends HttpServlet {
 		 try {
 			 //DriverManager.registerDriver( new oracle.jdbc.driver.OracleDriver());
 	     	 Connection con;
-	         con = DriverManager.getConnection("jdbc:oracle:thin:@apollo.ite.gmu.edu:1521:ite10g", "vgaddam", "ptuphy");
+	         con = DriverManager.getConnection("jdbc:oracle:thin:@apollo.ite.gmu.edu:1521:ite10g", "DATABASE_USERNAME", "PASSWORD");
 	         System.out.println("Connection established");
 	         Statement stmt= con.createStatement();
 	         ResultSet rs= stmt.executeQuery("select gmuid from studentdata");
