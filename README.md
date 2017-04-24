@@ -1,7 +1,6 @@
 # SurveyProjectUsingServlets (This is an assignment which was a part of a course that I took in my college)
 Project to take survey from the users, store in the database and display the results.
-I have included the eclipse project SurveyProject.war file which can be directly imported into eclipse.
-I have also included the source code in the SurveyProject folder.
+I have included the source code in the SurveyProject folder.
 The project uses Tomcat Server, Oracle database, java.
 Please change the database credentials(I have just mentioned DATABASE_USERNAME and PASSWORD) to your oracle credentials.
 Files included in the project:
